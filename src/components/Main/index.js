@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineMenuFold } from 'react-icons/ai';
 import { MdClose } from 'react-icons/md';
+import MyPhoto from '../../assets/images/aboutMePhoto.jpg';
 import Video from '../../assets/videos/video2.mp4';
 import * as S from './style';
 
@@ -16,6 +17,8 @@ export function Main () {
     const [subIndex, setSubIndex] = useState(0);
     const [blink, setBlink] = useState(true);
     const [reverse, setReverse] = useState(false);
+
+    const [navbar, setNavbar] = useState(false);
   
     // typeWriter
     useEffect(() => {
@@ -49,10 +52,20 @@ export function Main () {
         return () => clearTimeout(timeout2);
       }, [blink]);
 
+      const changeBackground = () => {
+        if (window.scrollY >= 80){
+          setNavbar(true)
+        }else{
+          setNavbar(false)
+        }
+      }
+    
+      window.addEventListener('scroll', changeBackground);
+
     return(
         <>
         <S.Container>
-        <header>
+        <header className={navbar ? 'navbar active' : 'navbar'}>
             <div id="header">
                 <S.Logo><p>About<span>.me</span></p></S.Logo>
                 <nav>
@@ -67,14 +80,15 @@ export function Main () {
                     <div onClick={handleClick}>
                         {click ? <MdClose/> : <AiOutlineMenuFold/>}
                     </div>
-                </S.MobileMenu>    
+                </S.MobileMenu>
+                
                 </nav>
             </div>
         </header>
         </S.Container>
-        <main>
+        <body>
             <S.Video>
-                <div className='bodyContainer'>
+                <div>
                 <video src={Video} autoPlay loop muted />
                 <S.TypingContainer>
                 <section>
@@ -88,12 +102,43 @@ export function Main () {
                     </div>
                 </section>
                 </S.TypingContainer>
-                <button className="pdfBtn">
+                <button type="button">
                     <a href="/">Get started</a>
                 </button>
                 </div>
             </S.Video>
-        </main>
+            
+            <S.AboutMe>
+              <S.Title>
+                <h2>About<span>.me</span></h2>
+                <S.AboutBar></S.AboutBar>
+                  <h3>Who am I</h3>
+                <S.AboutBar></S.AboutBar>
+              </S.Title>
+                          
+            <S.TextBox>
+            <img src={MyPhoto} alt="Matheus Cerqueira"/>
+              <p>
+                <h2>Hey! My name is Matheus</h2>
+                Hello there good to see you here let me introduce myself to you.
+                As you already know my name is Matheus Cerqueira and I am a web developer 
+                I am 20 years old and study at UNIFACS, University of Salvador, and a Rocketseat Igniter as a
+                front end student I use Javascript, ReactJs, TypeScript, Next.Js, HTML5 , CSS3 and other tools from these
+                libraries as back end developer e use Node.js, Docker and Elixir.<br/>
+                I am interested in studying AWS, Go, Machine Learning and Python.<br/>
+                I born in Salvador, Bahia - Brazil, in 2009 I went to Switzerland where I lived for 7 years
+                there I studied german and english and today I teach english and german classes get in
+                touch with for social proofs.<br/>
+                Whether it is studing spoken language or using programming language I strive to continuously
+                improve all the skills of my trade. One way that I use achieve this is seeing the soft skills
+                course <strong>Higher</strong> a soft skills course from Rocketseat.<br/>
+                You can find me <a href="/" >here</a>.
+                </p>
+              
+            </S.TextBox>
+            </S.AboutMe>
+            
+        </body>
         </>
     )
 }
